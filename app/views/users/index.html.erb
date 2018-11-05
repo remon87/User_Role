@@ -1,0 +1,50 @@
+<h4>TIME <%= local_time(Time.now) %></h4>
+<p id="notice"><%= notice %></p>
+<h1> Filter by Role </h1>
+<!-- <select> -->
+<!-- <% @roles.each do |role| %> -->
+<!--   <option value=<%= role.id %>><%= link_to role.name, users_path(role_id: role.id) %></option> -->
+<!-- <% end %> -->
+<!-- </select> -->
+
+<%= select_tag 'role_id', options_from_collection_for_select(@roles, "id", "name", params[:role_id]) %>
+
+<script>
+    $(function(){
+      $('#role_id').bind('change', function () {
+         var url = "/users?role_id=" + $(this).val()
+          if (url) {
+              window.location.replace(url);
+          }
+          return false;
+      });
+    });
+</script>
+
+<h1>Listing Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= user.name %></td>
+        <td><%= link_to 'Show', user %></td>
+        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User', new_user_path %>
